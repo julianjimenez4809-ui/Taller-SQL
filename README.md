@@ -1,4 +1,4 @@
-# Workshop SQL - Oracle Academic (AD) 
+# Workshop SQL - Oracle Academic (AD)
 
 Este repositorio contiene la resolución del taller de SQL para la gestión académica y administrativa universitaria, realizado en grupo.
 
@@ -34,11 +34,11 @@ Para mantener el orden, utilizaremos el siguiente flujo de trabajo en Git:
 
 ### Ramas (Branches)
 Cada integrante trabajará en una rama independiente:
-1.  `feature/estudiantes` (Integrante A)
-2.  `feature/facultades` (Integrante B)
-3.  `feature/preparacion` (Integrante C)
+1.  `feature/estudiantes` (Julian Duarte)
+2.  `feature/facultades` (Julian Jimenez)
+3.  `feature/preparacion` (Tomas Rincón)
 
-### Comandos de inicio para cada integrante:
+### Flujo de Trabajo:
 ```bash
 # 1. Clonar el repositorio
 git clone [URL-DEL-REPO]
@@ -55,10 +55,10 @@ git push origin feature/[tu-nombre-de-rama]
 ---
 
 ## Estructura del Proyecto
-*   `/sql`: Contiene los archivos `.sql` con las consultas y vistas.
-*   `/docs`: Documentos de análisis, propuestas y conclusiones (PDF/Markdown).
-*   `/assets`: Gráficas e imágenes resultantes del análisis.
-*   `README.md`: Instrucciones y guía del proyecto.
+*   `/sql`: Consultas SQL estructuradas y vistas.
+*   `/docs`: Documentación técnica, análisis y metodología.
+*   `/assets`: Datos crudos (CSV) y evidencias visuales (Gráficas/Capturas).
+*   `README.md`: Guía principal del proyecto e integración.
 
 ---
 
