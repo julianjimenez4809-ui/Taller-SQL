@@ -1,0 +1,27 @@
+# Archivos de Sistema
+.DS_Store
+Thumbs.db
+
+# IDEs (VS Code, IntelliJ, PyCharm)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Entornos Virtuales (Python)
+venv/
+.venv/
+env/
+pdf_env/
+
+# Archivos Temporales
+*.log
+*.tmp
+*.bak
+
+# El PDF original (Opcional: Si pesa mucho, mejor no subirlo)
+# Workshop sql 16 03 2026.pdf
+
+# Archivos de Datos (Opcional: Si son muy grandes, Git LFS o ignorarlos)
+# *.csv
+# *.xlsx
