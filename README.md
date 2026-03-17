@@ -1,15 +1,15 @@
-# Workshop SQL - Oracle Academic (AD) 🎓
+# Workshop SQL - Oracle Academic (AD) 
 
 Este repositorio contiene la resolución del taller de SQL para la gestión académica y administrativa universitaria, realizado en grupo.
 
-## 👥 Integrantes y Roles
+## Integrantes y Roles
 *   **Julian Duarte** - Líder de Datos (Enfoque: Rendimiento Académico)
 *   **Julian Jimenez** - Analista Administrativo (Enfoque: Gestión de Facultades)
 *   **Tomas Rincón** - Arquitecto de Datos (Enfoque: Consolidación y Limpieza)
 
 ---
 
-## 📋 Objetivos del Taller
+## Objetivos del Taller
 
 ### 1. Análisis de Rendimiento Académico (Punto 1)
 *   **Tareas:** Consultar detalles de estudiantes, notas por curso y resultados de exámenes.
@@ -28,7 +28,7 @@ Este repositorio contiene la resolución del taller de SQL para la gestión acad
 
 ---
 
-## 🛠️ Metodología de Trabajo y Git
+## Metodología de Trabajo y Git
 
 Para mantener el orden, utilizaremos el siguiente flujo de trabajo en Git:
 
@@ -54,7 +54,7 @@ git push origin feature/[tu-nombre-de-rama]
 
 ---
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 *   `/sql`: Contiene los archivos `.sql` con las consultas y vistas.
 *   `/docs`: Documentos de análisis, propuestas y conclusiones (PDF/Markdown).
 *   `/assets`: Gráficas e imágenes resultantes del análisis.
@@ -62,7 +62,7 @@ git push origin feature/[tu-nombre-de-rama]
 
 ---
 
-## 🚀 Entrega Final
+## Entrega Final
 1.  Consolidar todas las ramas en `main`.
 2.  Verificar que el repositorio sea público.
 3.  Enviar el link al formulario oficial: [Formulario Office](https://forms.office.com/r/sGWSt79VFk?origin=lprLink)
