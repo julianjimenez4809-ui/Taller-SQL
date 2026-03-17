@@ -63,7 +63,7 @@ git push origin feature/[tu-nombre-de-rama]
 ---
 
 ## Entrega Final
-1.  Consolidar todas las ramas en la rama principal.
-2.  Verificar que el repositorio sea de acceso público.
-3.  Enviar el enlace al formulario oficial.
-4.  Compartir el repositorio con el usuario de GitHub correspondiente.
+1.  Consolidar todas las ramas en `main`.
+2.  Verificar que el repositorio sea público.
+3.  Enviar el link al formulario oficial: [Formulario Office](https://forms.office.com/r/sGWSt79VFk?origin=lprLink)
+4.  Compartir con el usuario: `mariabaci`
