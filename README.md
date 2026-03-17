@@ -3,9 +3,9 @@
 Este repositorio contiene la resolución del taller de SQL para la gestión académica y administrativa universitaria, realizado en grupo.
 
 ## 👥 Integrantes y Roles
-*   **[Nombre Integrante A]** - Líder de Datos (Enfoque: Rendimiento Académico)
-*   **[Nombre Integrante B]** - Analista Administrativo (Enfoque: Gestión de Facultades)
-*   **[Nombre Integrante C]** - Arquitecto de Datos (Enfoque: Consolidación y Limpieza)
+*   **Julian Duarte** - Líder de Datos (Enfoque: Rendimiento Académico)
+*   **Julian Jimenez** - Analista Administrativo (Enfoque: Gestión de Facultades)
+*   **Tomas Rincón** - Arquitecto de Datos (Enfoque: Consolidación y Limpieza)
 
 ---
 
@@ -14,17 +14,17 @@ Este repositorio contiene la resolución del taller de SQL para la gestión acad
 ### 1. Análisis de Rendimiento Académico (Punto 1)
 *   **Tareas:** Consultar detalles de estudiantes, notas por curso y resultados de exámenes.
 *   **Entregables:** Queries SQL, Vistas y documento de análisis con gráficas de rendimiento.
-*   **Responsable:** Integrante A.
+*   **Responsable:** Julian Duarte.
 
 ### 2. Mejora de Capacidad Administrativa (Punto 2)
 *   **Tareas:** Detalles de facultades y sus cursos.
 *   **Entregables:** Propuesta administrativa, conclusiones y consultas SQL correlacionadas.
-*   **Responsable:** Integrante B.
+*   **Responsable:** Julian Jimenez.
 
 ### 3. Caracterización y Preparación de Temporada (Punto 3)
 *   **Tareas:** Consolidación en una sola tabla, detección de duplicados y datos nulos.
 *   **Entregables:** Análisis de años anteriores y reporte de facultades a fortalecer.
-*   **Responsable:** Integrante C.
+*   **Responsable:** Tomas Rincón.
 
 ---
 
