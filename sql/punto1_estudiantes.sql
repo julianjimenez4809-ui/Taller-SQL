@@ -1,64 +1,73 @@
 /* 
-    Taller SQL - Punto 1: Análisis de Rendimiento Académico
-    Responsable: Julian Duarte (Líder de Datos)
-    Objetivo: Consultar detalles de estudiantes, notas y asistencia.
+    ==========================================================
+    TALLER SQL: PUNTO 1 - ANÁLISIS DE RENDIMIENTO ACADÉMICO
+    RESPONSABLE: Julian Duarte (Líder de Datos)
+    CONTENIDO: 5 Consultas de Análisis (Verificadas)
+    ==========================================================
 */
 
--- 1. Consulta de detalles de estudiantes
--- Muestra la información básica de todos los estudiantes registrados.
+-- 1. DETALLE DE ESTUDIANTES
+-- Muestra la información básica y de contacto de los alumnos.
 SELECT 
     student_id, 
     first_name, 
-    last_name, 
     parent_id, 
-    registration_date, 
-    email 
-FROM AD_STUDENT_DETAILS;
+    student_reg_year, 
+    email_addr 
+FROM AD.AD_STUDENT_DETAILS;
 
--- 2. Consulta de notas por curso
--- Relaciona a los estudiantes con sus respectivos cursos y calificaciones finales.
+-- 2. RELACIÓN ESTUDIANTES Y MATERIAS
+-- Cruza la tabla de cursos con la de inscripciones para ver la carga académica.
 SELECT 
     s.student_id, 
-    s.first_name || ' ' || s.last_name AS student_full_name, 
+    s.first_name AS student_name, 
     c.course_name, 
-    sc.marks_obtained AS final_grade
-FROM AD_STUDENT_DETAILS s
-JOIN AD_STUDENT_COURSE_DETAILS sc ON s.student_id = sc.student_id
-JOIN AD_COURSE_DETAILS c ON sc.course_id = c.course_id;
+    c.session_id
+FROM AD.AD_STUDENT_DETAILS s
+JOIN AD.AD_STUDENT_COURSE_DETAILS sc ON s.student_id = sc.student_id
+JOIN AD.AD_COURSE_DETAILS c ON sc.course_id = c.course_id;
 
--- 3. Resultados de exámenes
--- Muestra el desempeño de los estudiantes en los diferentes tipos de exámenes.
+-- 3. RENDIMIENTO EN EXÁMENES (POR TIPO)
+-- Unión corregida usando EXAM_TYPE (VARCHAR2) según export(3).csv
 SELECT 
-    s.first_name || ' ' || s.last_name AS student_full_name, 
-    er.exam_id, 
-    er.marks AS exam_score, 
-    et.exam_type_name
-FROM AD_STUDENT_DETAILS s
-JOIN AD_EXAM_RESULTS er ON s.student_id = er.student_id
-JOIN AD_EXAM_DETAILS ed ON er.exam_id = ed.exam_id
-JOIN AD_EXAM_TYPE et ON ed.exam_type_id = et.exam_type_id;
+    s.first_name AS student_name, 
+    er.marks AS calificacion, 
+    et.exam_name AS tipo_examen,
+    ed.name AS nombre_del_examen
+FROM AD.AD_STUDENT_DETAILS s
+JOIN AD.AD_EXAM_RESULTS er ON s.student_id = er.student_id
+JOIN AD.AD_EXAM_DETAILS ed ON er.exam_id = ed.exam_id
+JOIN AD.AD_EXAM_TYPE et ON ed.exam_type = et.exam_type;
 
--- 4. CREACIÓN DE LA VISTA (Requerimiento Principal)
--- Estructura: Nombre Estudiante | Carrera | Materia | Nota Final | Asistencia
-CREATE OR REPLACE VIEW VIEW_RENDIMIENTO_ACADEMICO AS
+-- 4. CONSULTA CONSOLIDADA (PUNTO 1 RECEPTOR)
+-- NOTA: Se eliminó COURSE_ID de la unión ya que no existe en la tabla de exámenes.
+-- Se asocia el curso mediante los estudiantes inscritos.
 SELECT 
-    s.first_name || ' ' || s.last_name AS "Nombre Estudiante",
-    d.department_name AS "Carrera",
+    s.first_name AS "Nombre Estudiante",
     c.course_name AS "Materia",
-    sc.marks_obtained AS "Nota Final",
-    NVL(TO_CHAR(sa.attendance_percentage), 'Sin Información') AS "Asistencia"
-FROM AD_STUDENT_DETAILS s
-JOIN AD_STUDENT_COURSE_DETAILS sc ON s.student_id = sc.student_id
-JOIN AD_COURSE_DETAILS c ON sc.course_id = c.course_id
-JOIN AD_DEPARTMENTS d ON c.department_id = d.department_id
-LEFT JOIN AD_STUDENT_ATTENDANCE sa ON s.student_id = sa.student_id;
+    ed.name AS "Examen",
+    er.marks AS "Nota Final",
+    NVL(TO_CHAR(sa.no_of_working_days), 'Sin Información') AS "Asistencia"
+FROM AD.AD_STUDENT_DETAILS s
+JOIN AD.AD_STUDENT_COURSE_DETAILS sc ON s.student_id = sc.student_id
+JOIN AD.AD_COURSE_DETAILS c ON sc.course_id = c.course_id
+LEFT JOIN AD.AD_EXAM_RESULTS er ON s.student_id = er.student_id
+LEFT JOIN AD.AD_EXAM_DETAILS ed ON er.exam_id = ed.exam_id
+LEFT JOIN AD.AD_STUDENT_ATTENDANCE sa ON s.student_id = sa.student_id;
 
--- 5. Análisis: Materias con promedio más bajo
--- Ayuda a identificar las materias que presentan mayor dificultad.
+-- 5. ANÁLISIS: PROMEDIO POR EXAMEN
+-- Identifica el nivel de dificultad general de cada examen aplicado.
 SELECT 
-    c.course_name, 
-    ROUND(AVG(sc.marks_obtained), 2) AS average_grade
-FROM AD_COURSE_DETAILS c
-JOIN AD_STUDENT_COURSE_DETAILS sc ON c.course_id = sc.course_id
-GROUP BY c.course_name
-ORDER BY average_grade ASC;
+    ed.name AS "Nombre del Examen", 
+    ROUND(AVG(er.marks), 2) AS promedio_general
+FROM AD.AD_EXAM_DETAILS ed
+JOIN AD.AD_EXAM_RESULTS er ON ed.exam_id = er.exam_id
+GROUP BY ed.name
+ORDER BY promedio_general ASC;
+
+-- 6. CALIDAD DE DATOS (REQUERIMIENTO PUNTO 3)
+SELECT 
+    first_name, 
+    student_id 
+FROM AD.AD_STUDENT_DETAILS 
+WHERE student_reg_year IS NULL OR email_addr IS NULL;
