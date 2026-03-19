@@ -1,16 +1,16 @@
 -- ==========================================================
 -- TALLER SQL: PUNTO 3 - CARACTERIZACIÓN Y PREPARACIÓN DE TEMPORADA
--- INTEGRANTE: Tomas Rincón (Arquitecto de Datos)
+-- INTEGRANTE C: Tomas Rincón (Arquitecto de Datos)
 -- OBJETIVO: Consolidar datos de años académicos, cursos, departamentos
 -- y profesores en una sola tabla/vista. Detectar nulos y duplicados.
 -- ==========================================================
 
 -- 1. CONSOLIDACIÓN EN UNA SOLA TABLA (VISTA PRINCIPAL)
--- Cumple con "see everything in a single table".
+-- Cumple con el requerimiento de consolidar toda la información en una sola vista permanente.
 -- Muestra el año académico (Sesión), Departamento, Jefe, Curso y Docente asignado.
 CREATE OR REPLACE VIEW V_PUNTO3_CONSOLIDADO AS
 SELECT 
-    sess.NAME AS ACADEMIC_SESSION,
+    sess.SESSION_ID AS ACADEMIC_SESSION,
     d.DEPARTMENT_NAME,
     d.HOD AS HEAD_OF_DEPARTMENT,
     c.COURSE_NAME,
@@ -60,7 +60,7 @@ HAVING
 
 -- 4. FACULTADES/DEPARTAMENTOS A FORTALECER
 -- Identifica qué departamentos tienen una oferta académica muy pobre o nula.
--- Esto responde a "which faculties need to be strengthened".
+-- Esto responde a identificar las facultades que necesitan fortalecerse.
 SELECT 
     d.DEPARTMENT_NAME,
     COUNT(c.COURSE_ID) AS TOTAL_CURSOS_OFERTADOS

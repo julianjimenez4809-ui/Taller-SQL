@@ -1,49 +1,56 @@
-# Análisis de Preparación y Consolidación de Temporada - Punto 3
+# Preparación de la Nueva Temporada - Punto 3
 
-**Objetivo:** Consolidar el panorama académico general reuniendo la información de años anteriores, cursos, departamentos y cuerpo docente, de cara a la nueva temporada académica. Asimismo, auditar la integridad de los datos para detectar información duplicada o faltante y diagnosticar las facultades que requieren fortalecimiento.
-
----
-
-## 1. Consolidación de Resumen Histórico (Vista Única)
-
-Para satisfacer el requerimiento directivo de "ver todo en una sola tabla", se creó la vista `V_PUNTO3_CONSOLIDADO`. 
-Esta tabla permite cruzar rápidamente un periodo académico (`ACADEMIC_SESSION`) con los `DEPARTMENTS`, sus jefes de departamento (`HOD`), la asignatura impartida (`COURSE_NAME`), y el docente (`FACULTY_NAME`) a cargo.
-Este modelo desnormalizado y consolidado será la fuente primaria para crear los Dashboards de la próxima temporada, eliminando la necesidad de buscar fragmentos en múltiples tablas maestras.
+**Objetivo del Informe:** 
+Queremos consolidar la información de la institución (años académicos, cursos, departamentos y profesores) en un solo lugar. Esto nos servirá como base para organizarnos antes de la llegada de los estudiantes en la nueva temporada, identificando si hay problemas graves en nuestros archivos (como cursos duplicados o sin organizar) y descubriendo de paso qué facultades necesitan más atención y recursos.
 
 ---
 
-## 2. Auditoría de Integridad de Datos
+## 1. La Tabla Única (Nuestra Vista Principal)
 
-### A. Detección de Información Faltante (Nulls)
-Durante el análisis de calidad de los datos para la carga de temporada, descubrimos ciertas falencias:
-* Existen asignaturas creadas que no poseen un departamento doliente asignado (`DEPARTMENT_ID IS NULL`).
-* Esto causa vacíos institucionales al no haber un control sobre el plan de estudios.
-* Algunos departamentos no cuentan con registros formales de **HOD** (Head of Department) en la tabla `AD_DEPARTMENTS`. Es indispensable actualizar los nulos antes del ingreso de nuevas matrículas.
+La directiva pidió una forma fácil de "ver todo en una sola tabla" para no perderse navegando entre distintos archivos. Por eso consolidamos toda la red académica en una vista general llamada `V_PUNTO3_CONSOLIDADO`. 
 
-### B. Detección de Registros Duplicados 
-Se verificó la estructura de cursos por periodo académico:
-* Al ejecutar el análisis de duplicidad (contando repeticiones del mismo `COURSE_NAME` y `SESSION_ID`), se audita constantemente que un curso no haya sido creado dos veces por error humano durante la apertura del año académico, manteniendo limpio el sistema contable y de registro.
+**¿Qué nos muestra esta tabla?**
+De un solo vistazo, podemos saber el año académico, el departamento, su jefe directivo, el curso que dictan y el profesor a cargo. Tener todos estos datos juntos hará que planear los nuevos horarios de clases sea un proceso sumamente ágil y directo.
+
+*(Referencia visual: `Queri_1.png`)*
 
 ---
 
-## 3. Facultades y Áreas a Fortalecer
+## 2. Limpieza de Nuestros Datos (Auditoría de Calidad)
 
-A través de la cuantificación de `COURSE_LEVELS` y oferta de asignaturas (`COURSE_NAME`) por cada Facultad/Departamento:
+Antes de abrir inscripciones, debíamos estar absolutamente seguros de que el sistema no tuviera vacíos o cursos "fantasma" que desorientaran a los alumnos. ¡Las buenas noticias son que nuestro sistema está muy sólido!
 
-1. **Departamentos Secundarios o de Minoría:** Facultades con **1 o ningún curso** asociado deben ser sometidas a escrutinio. La baja oferta académica puede deberse a desinversión, por lo que es necesario fortalecer la plantilla docente o unificar la facultad con otra más fuerte.
-2. Basado en el Punto 1 y 2 de nuestros analistas, los departamentos como "Accounting" o "Computer Science" tienen una carga superior a la media, mientras que ciertos departamentos de humanidades se ven relegados. Es vital **abrir nuevas materias** o reasignar presupuesto de facultades poco atractivas hacia los departamentos técnicos sobresaturados.
+### A. Evaluando Vacíos y Nulos
+Buscamos en la base de datos si existían cursos que no pertenecieran a ninguna facultad (cursos "huérfanos") o departamentos que no tuvieran un jefe directivo (`HOD`) anotado. 
+Al ejecutar nuestra auditoría, el sistema arrojó cero resultados. Esto significa que **absolutamente todos los cursos tienen supervisión** y no hay departamentos desamparados.
+
+*(Referencia visual: `Queri_2.png`)*
+
+### B. Evaluando Cursos Duplicados
+Hicimos un chequeo para ver si un mismo curso se había creado dos veces por error durante el mismo ciclo académico. De nuevo, la base de datos pasó la prueba sin fallos. Esto nos garantiza que ningún estudiante terminará pagando o matriculándose en un curso clon irreale.
+
+*(Referencia visual: `Queri_3.png`)*
+
+---
+
+## 3. Profesores y Facultades que Necesitamos Fortalecer
+
+Al auditar la distribución de peso entre las facultades, encontramos lo siguiente:
+
+1. **La Facultad de Literatura está perdiendo terreno:** Notamos que todas las ramas (Computación, Biología y Contabilidad) lideran con fuerza ofreciendo **4 cursos** cada una de forma equitativa. Sin embargo, "Literatura" está por detrás ofreciendo solo 3 cursos. La institución debe fortalecer esta área de inmediato abriendo nuevas clases artísticas para no dejarla rezagada frente a las carreras de ciencias. *(Referencia visual: `Queri_4.png`)*
+2. **Monitorear a nuestros docentes más solicitados:** Confirmamos que el profesor **Steven King** es un pilar fundamental para nosotros, ya que está encargado de cursos súper concurridos (como *Cost Accounting* con 3 alumnos, y *Strategic Tax Planning* con 2). Su carga acumulada supera bastante la media de sus colegas (que suelen tener 2 alumnos). Debemos cuidarlo asignándole asistentes o abrir nuevos horarios para aligerar su volumen de trabajo. *(Referencia visual: `Queri_5.png`)*
 
 ---
 
 ## 4. Conclusión para la Nueva Temporada
 
-Para preparar a la universidad para la nueva carga estudiantil, la recomendación administrativa es enfática:
-1. **Limpiar datos maestros:** Antes de habilitar el portal de inscripción, asignar obligatoriamente todos los **departamentos faltantes** a sus cursos y sus jefes, evitando inscripciones huérfanas.
-2. **Refuerzo Proyeccional:** Redistribuir aulas y personal de soporte hacia las facultades que muestran un déficit de recursos respecto a su gran número de alumnos proyectados por asignatura.
+Si queremos arrancar el próximo semestre con éxito, sugerimos dos puntos de acción rápidos:
+1. **Estamos técnicamente cubiertos:** A nivel de archivo, la matrícula puede abrirse hoy mismo, ya que no detectamos ni cursos huérfanos ni errores de duplicidad en nuestro análisis de limpieza.
+2. **Equilibrar a la academia:** Concentrar esfuerzos en sacar adelante al Departamento de Literatura (creando nuevas asignaturas) y alivianar de inmediato la inmensa acumulación de trabajo del profesor Steven King en el departamento contable.
 
 ---
 
-**Entregables Vinculados:**
+**Archivos Entregables Asociados:**
 - Archivo SQL: `sql/punto3_preparacion.sql`
-- Vista Consolidada: `V_PUNTO3_CONSOLIDADO`
-- Datos de Referencia (CSVs): Exportados según indicaciones de plataforma.
+- Datos Resultantes (CSVs): Carpeta `assets/data/Punto_3/`
+- Capturas y Gráficas de las Consultas: Carpeta `assets/capturas/Punto_3/`
